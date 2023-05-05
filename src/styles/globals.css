@@ -12,3 +12,22 @@ body {
   font-family: "Raleway", sans-serif;
   background-color: #111117;
 }
+
+.ReactModal__Overlay,
+.ReactModal__Overlay--after-open {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(1, 2, 12, 0.85) !important;
+}
+
+.ReactModal__Content,
+.ReactModal__Content--after-open {
+  width: 100%;
+  max-width: 450px;
+  inset: 0px !important;
+  position: relative !important;
+  padding: 4rem 0rem !important;
+  background-color: rgb(228, 235, 248) !important;
+  margin: 2rem;
+}

@@ -27,7 +27,7 @@ model Entry {
   name        String
   description String?
   createdAt   DateTime @default(now())
-  time        String
+  time        Int
   tags        Tag[]
   project     Project  @relation(fields: [projectId], references: [id])
   projectId   String
