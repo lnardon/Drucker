@@ -1,7 +1,11 @@
 import ProjectCard from "../ProjectCard";
 import styles from "./styles.module.css";
 
-const ProjectsTable: React.FC<any> = ({ projects, handleProjectOpen }) => {
+const ProjectsTable: React.FC<any> = ({
+  projects,
+  handleProjectOpen,
+  handleProjectDeletion,
+}) => {
   return (
     <div className={styles.container}>
       {projects.map((project: any) => {
@@ -10,7 +14,7 @@ const ProjectsTable: React.FC<any> = ({ projects, handleProjectOpen }) => {
             name={project.name}
             key={project.name}
             handleClick={() => handleProjectOpen(project)}
-            handleDelete={() => alert(project.name)}
+            handleDelete={() => handleProjectDeletion(project.id)}
           />
         );
       })}
