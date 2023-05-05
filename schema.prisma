@@ -12,13 +12,13 @@ generator client {
 model Project {
   id    String  @id @default(cuid())
   name  String
-  Entry Entry[]
+  entries Entry[]
 }
 
 model Tag {
   id      String  @id @default(cuid())
   name    String  @unique
-  Entry   Entry?  @relation(fields: [entryId], references: [id])
+  entries  Entry?  @relation(fields: [entryId], references: [id])
   entryId String?
 }
 

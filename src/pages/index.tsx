@@ -1,28 +1,27 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
+
 import styles from "@/styles/Home.module.css";
 import { ProjectsRepository } from "@/utils/repositories/projects";
-import { EntriesRepository } from "@/utils/repositories/entries";
-import ProjectCard from "@/components/ProjectCard";
-import EntryCard from "@/components/EntryCard";
 import EntriesTable from "@/components/EntriesTable";
 import ProjectsTable from "@/components/ProjectsTable";
+import { ProjectInterface } from "@/interfaces/ProjectInterface";
 
 export default function Home() {
   const [projects, setProjects] = useState<any[]>([]);
-  const [entries, setEntries] = useState<any[]>([
-    { name: "Creating drucker base", time: "07:16", createdAt: "04/05/2023" },
-  ]);
+  const [entries, setEntries] = useState<any>([]);
   const [currentProject, setCurrentProject] = useState<any>();
 
   const projectsRepository = new ProjectsRepository();
-  const entriesRepository = new EntriesRepository();
 
   function handleStartTime() {
     alert(Date.now());
   }
 
-  function handleProjectOpen(project) {
+  async function handleProjectOpen(project: ProjectInterface) {
+    let rawData = await projectsRepository.getProjectEntries(project.id);
+    let parsedData = await rawData.json();
+    setEntries(parsedData);
     setCurrentProject(project);
   }
 
@@ -32,7 +31,7 @@ export default function Home() {
       let parsedData = await rawData.json();
       setProjects(parsedData);
     })();
-  });
+  }, []);
 
   return (
     <>
