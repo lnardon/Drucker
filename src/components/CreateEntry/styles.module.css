@@ -1,0 +1,53 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.time {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.nameInput {
+  width: 50%;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  padding: 0.5rem;
+}
+
+.startBtn {
+  width: 50%;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background-color: rgb(102, 7, 190);
+  border-radius: 0.25rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #fafafa;
+  margin-bottom: 1rem;
+}
+
+.endBtn {
+  width: 50%;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  outline: none;
+  border: 2px solid rgb(102, 7, 190);
+  border-radius: 0.25rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: rgb(102, 7, 190);
+  margin-bottom: 1rem;
+}
