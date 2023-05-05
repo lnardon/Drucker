@@ -1,9 +1,11 @@
 import EntryCard from "../EntryCard";
 
+import styles from "./styles.module.css";
+
 const EntriesTable: React.FC<any> = ({ entries }) => {
   return (
-    <div>
-      {entries.map((entry) => {
+    <div className={styles.container}>
+      {entries[0]?.entries?.map((entry: any) => {
         return (
           <EntryCard
             name={entry.name}
