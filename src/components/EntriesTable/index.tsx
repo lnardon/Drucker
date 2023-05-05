@@ -1,5 +1,5 @@
 import EntryCard from "../EntryCard";
-
+import { convertSecondsToFullTime } from "@/utils/convertSecondsToFullTime";
 import styles from "./styles.module.css";
 
 const EntriesTable: React.FC<any> = ({ entries }) => {
@@ -10,7 +10,7 @@ const EntriesTable: React.FC<any> = ({ entries }) => {
           <EntryCard
             name={entry.name}
             key={entry.name}
-            time={entry.time}
+            time={convertSecondsToFullTime(entry.time)}
             createdAt={entry.createdAt}
           />
         );

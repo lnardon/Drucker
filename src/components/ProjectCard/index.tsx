@@ -14,8 +14,19 @@ const ProjectCard: React.FC<IProjectCard> = ({
   return (
     <div className={styles.container} onClick={handleClick}>
       <p className={styles.name}>{name}</p>
-      <button className={styles.deleteBtn} onClick={handleDelete}>
-        X
+      <button
+        className={styles.deleteBtn}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleDelete();
+        }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          className={styles.icon}
+          src="./assets/delete.png"
+          alt="delete icon"
+        />
       </button>
     </div>
   );
