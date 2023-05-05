@@ -3,19 +3,30 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 2rem 0rem;
   padding: 1rem;
+  margin: 0.5rem;
   cursor: pointer;
   border-radius: 0.25rem;
   transition: all 0.3s ease-out;
+  background-color: rgb(35, 35, 71);
+  box-shadow: 0px 0px 11px 3px rgba(0, 0, 0, 0.13);
 }
 
 .container:hover {
-  background-color: rgb(35, 35, 71);
+  background-color: rgb(44, 44, 109);
 }
 
 .name {
   font-size: 1.5rem;
   font-weight: 500;
   color: #fafafa;
+}
+
+.deleteBtn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f8073c;
 }

@@ -1,19 +1,38 @@
 import Head from "next/head";
+import { useState, useEffect } from "react";
 import styles from "@/styles/Home.module.css";
-import { DatabaseRepository } from "@/utils/databaseRepository";
+import { ProjectsRepository } from "@/utils/repositories/projects";
+import { EntriesRepository } from "@/utils/repositories/entries";
 import ProjectCard from "@/components/ProjectCard";
 import EntryCard from "@/components/EntryCard";
+import EntriesTable from "@/components/EntriesTable";
+import ProjectsTable from "@/components/ProjectsTable";
 
 export default function Home() {
-  const projects = [{ name: "World Domination" }];
-  const entries = [
+  const [projects, setProjects] = useState<any[]>([]);
+  const [entries, setEntries] = useState<any[]>([
     { name: "Creating drucker base", time: "07:16", createdAt: "04/05/2023" },
-  ];
-  const db = new DatabaseRepository();
+  ]);
+  const [currentProject, setCurrentProject] = useState<any>();
+
+  const projectsRepository = new ProjectsRepository();
+  const entriesRepository = new EntriesRepository();
+
   function handleStartTime() {
-    db.startTimer();
     alert(Date.now());
   }
+
+  function handleProjectOpen(project) {
+    setCurrentProject(project);
+  }
+
+  useEffect(() => {
+    (async () => {
+      let rawData = await projectsRepository.getAllProjects();
+      let parsedData = await rawData.json();
+      setProjects(parsedData);
+    })();
+  });
 
   return (
     <>
@@ -33,26 +52,16 @@ export default function Home() {
         <main className={styles.main}>
           <h2 className={styles.subtitle}>
             <span>&#x1f3c6;</span> Projects
+            <span>{currentProject && ` > ${currentProject.name}`}</span>
           </h2>
-          {projects.map((project) => {
-            return (
-              <ProjectCard
-                name={project.name}
-                key={project.name}
-                handleClick={() => alert(project.name)}
-              />
-            );
-          })}
-          {entries.map((entry) => {
-            return (
-              <EntryCard
-                name={entry.name}
-                key={entry.name}
-                time={entry.time}
-                createdAt={entry.createdAt}
-              />
-            );
-          })}
+          {currentProject ? (
+            <EntriesTable entries={entries} />
+          ) : (
+            <ProjectsTable
+              projects={projects}
+              handleProjectOpen={handleProjectOpen}
+            />
+          )}
         </main>
       </div>
     </>
