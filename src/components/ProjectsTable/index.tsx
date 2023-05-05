@@ -4,7 +4,7 @@ import styles from "./styles.module.css";
 const ProjectsTable: React.FC<any> = ({ projects, handleProjectOpen }) => {
   return (
     <div className={styles.container}>
-      {projects.map((project) => {
+      {projects.map((project: any) => {
         return (
           <ProjectCard
             name={project.name}
