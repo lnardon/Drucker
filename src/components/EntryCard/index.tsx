@@ -4,6 +4,7 @@ const EntryCard: React.FC<any> = ({ createdAt, name, time }) => {
   return (
     <div className={styles.container}>
       <span>{name}</span>
+      <span>tags aqui</span>
       <span>{createdAt}</span>
       <span>{time}</span>
     </div>
