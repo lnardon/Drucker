@@ -55,7 +55,7 @@ export default function Home() {
   }
 
   async function handleProjectCreation() {
-    const name = prompt("Type a unique name for your new project.");
+    const name = prompt("Type an unique name for your new project.");
     if (name) {
       projectsRepository.createProject(name);
     }
@@ -100,10 +100,18 @@ export default function Home() {
           </button>
         </header>
         <main className={styles.main}>
-          <h2 className={styles.subtitle}>
-            <span>&#x1f3c6;</span> Projects
-            <span>{currentProject && ` > ${currentProject.name}`}</span>
-          </h2>
+          <div className={styles.breadcrumbsContainer}>
+            <h2 className={styles.subtitle}>
+              <span>&#x1f3c6;</span> Projects
+              <span>{currentProject && ` > ${currentProject.name}`}</span>
+            </h2>
+            <button
+              className={styles.createFolderBtn}
+              onClick={handleProjectCreation}
+            >
+              + Create Project
+            </button>
+          </div>
           {currentProject ? (
             <EntriesTable entries={entries} />
           ) : (
@@ -113,7 +121,6 @@ export default function Home() {
               handleProjectDeletion={handleProjectDeletion}
             />
           )}
-          <button onClick={handleProjectCreation}>Create Project</button>
           <Modal
             isOpen={modalIsOpen}
             onRequestClose={closeModal}
