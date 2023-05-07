@@ -14,7 +14,7 @@ const CreateEntry: React.FC<any> = ({
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.title}>Create a Timer Entry</h3>
+      <h3 className={styles.title}>Timer</h3>
       <p className={styles.time}>{convertSecondsToFullTime(timer)}</p>
       <input
         className={styles.nameInput}

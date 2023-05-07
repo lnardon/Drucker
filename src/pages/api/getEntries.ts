@@ -13,12 +13,12 @@ export default async function getEntries(
     }
 
     try {
-      const projectEntries = await prisma.project.findMany({
+      const projectEntries = await prisma.entry.findMany({
         where: {
-          id: projectId,
+          projectId: projectId,
         },
         include: {
-          entries: true,
+          tags: true,
         },
       });
 

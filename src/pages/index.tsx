@@ -4,16 +4,18 @@ import Modal from "react-modal";
 
 import styles from "@/styles/Home.module.css";
 import { ProjectsRepository } from "@/utils/repositories/projects";
+import { EntriesRepository } from "@/utils/repositories/entries";
+import { Clock } from "@/utils/Clock";
+import { ProjectInterface } from "@/interfaces/ProjectInterface";
 import EntriesTable from "@/components/EntriesTable";
 import ProjectsTable from "@/components/ProjectsTable";
-import { ProjectInterface } from "@/interfaces/ProjectInterface";
-import { Clock } from "@/utils/Clock";
 import CreateEntry from "@/components/CreateEntry";
-import { EntriesRepository } from "@/utils/repositories/entries";
+import Login from "@/components/Login";
 
 Modal.setAppElement("#__next");
 
 export default function Home() {
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [projects, setProjects] = useState<any[]>([]);
   const [entries, setEntries] = useState<any>([]);
   const [currentProject, setCurrentProject] = useState<any>();
@@ -44,6 +46,8 @@ export default function Home() {
       currentTimerTime,
       projectId
     );
+    let parsedData = await rawData.json();
+    setEntries((old: any) => [...old, parsedData]);
     setIsOpen(false);
   }
 
@@ -55,9 +59,11 @@ export default function Home() {
   }
 
   async function handleProjectCreation() {
-    const name = prompt("Type a unique name for your new project.");
+    const name = prompt("Type an unique name for your new project.");
     if (name) {
-      projectsRepository.createProject(name);
+      let rawData = await projectsRepository.createProject(name);
+      let parsedData = await rawData.json();
+      setProjects((old) => [...old, parsedData]);
     }
   }
 
@@ -67,8 +73,12 @@ export default function Home() {
     );
     if (confirmation) {
       let rawData = await projectsRepository.deleteProject(id);
-      let parsedData = await rawData.json();
+      setProjects((old) => old.filter((project) => project.id !== id));
     }
+  }
+
+  function onAuthSuccess() {
+    setIsUserLoggedIn(true);
   }
 
   useEffect(() => {
@@ -88,45 +98,60 @@ export default function Home() {
         <link rel="icon" href="/assets/timer.png" />
       </Head>
       <div className={styles.container}>
-        <header className={styles.header}>
-          <span
-            className={styles.title}
-            onClick={() => setCurrentProject(null)}
-          >
-            DRCKR
-          </span>
-          <button className={styles.createBtn} onClick={openModal}>
-            Start Timer
-          </button>
-        </header>
-        <main className={styles.main}>
-          <h2 className={styles.subtitle}>
-            <span>&#x1f3c6;</span> Projects
-            <span>{currentProject && ` > ${currentProject.name}`}</span>
-          </h2>
-          {currentProject ? (
-            <EntriesTable entries={entries} />
-          ) : (
-            <ProjectsTable
-              projects={projects}
-              handleProjectOpen={handleProjectOpen}
-              handleProjectDeletion={handleProjectDeletion}
-            />
-          )}
-          <button onClick={handleProjectCreation}>Create Project</button>
-          <Modal
-            isOpen={modalIsOpen}
-            onRequestClose={closeModal}
-            contentLabel="Example Modal"
-          >
-            <CreateEntry
-              handleStartTimer={handleStartTimer}
-              handleEndTimer={handleEndTimer}
-              timer={currentTimerTime}
-              projects={projects}
-            />
-          </Modal>
-        </main>
+        {isUserLoggedIn ? (
+          <div className={styles.content}>
+            <header className={styles.header}>
+              <span
+                className={styles.title}
+                onClick={() => setCurrentProject(null)}
+              >
+                DRCKR
+              </span>
+              <button className={styles.createBtn} onClick={openModal}>
+                Start Timer
+              </button>
+            </header>
+            <main className={styles.main}>
+              <div className={styles.breadcrumbsContainer}>
+                <h2 className={styles.subtitle}>
+                  <span>&#x1f3c6;</span> Projects
+                  <span>{currentProject && ` > ${currentProject.name}`}</span>
+                </h2>
+                {!currentProject && (
+                  <button
+                    className={styles.createFolderBtn}
+                    onClick={handleProjectCreation}
+                  >
+                    + Create Project
+                  </button>
+                )}
+              </div>
+              {currentProject ? (
+                <EntriesTable entries={entries} />
+              ) : (
+                <ProjectsTable
+                  projects={projects}
+                  handleProjectOpen={handleProjectOpen}
+                  handleProjectDeletion={handleProjectDeletion}
+                />
+              )}
+              <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                contentLabel="Example Modal"
+              >
+                <CreateEntry
+                  handleStartTimer={handleStartTimer}
+                  handleEndTimer={handleEndTimer}
+                  timer={currentTimerTime}
+                  projects={projects}
+                />
+              </Modal>
+            </main>
+          </div>
+        ) : (
+          <Login onAuthSuccess={onAuthSuccess} />
+        )}
       </div>
     </>
   );
