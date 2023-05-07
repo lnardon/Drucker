@@ -1,5 +1,5 @@
 export class Clock {
-  private timeStarted: number = Date.now();
+  private timeStarted: number = 0;
 
   startTimer() {
     this.timeStarted = Date.now();
@@ -15,6 +15,10 @@ export class Clock {
   }
 
   getElapsedTimeInSeconds() {
-    return Math.round((Date.now() - this.timeStarted) / 1000);
+    if (this.timeStarted === 0) {
+      return 0;
+    } else {
+      return Math.round((Date.now() - this.timeStarted) / 1000);
+    }
   }
 }

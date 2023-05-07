@@ -11,33 +11,40 @@ import EntriesTable from "@/components/EntriesTable";
 import ProjectsTable from "@/components/ProjectsTable";
 import CreateEntry from "@/components/CreateEntry";
 import Login from "@/components/Login";
+import { EntryInterface } from "@/interfaces/EntryInterface";
 
 Modal.setAppElement("#__next");
 
+const clock = new Clock();
+let interval: undefined | NodeJS.Timer = undefined;
 export default function Home() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
-  const [projects, setProjects] = useState<any[]>([]);
-  const [entries, setEntries] = useState<any>([]);
-  const [currentProject, setCurrentProject] = useState<any>();
+  const [projects, setProjects] = useState<ProjectInterface[]>([]);
+  const [entries, setEntries] = useState<EntryInterface[]>([]);
+  const [currentProject, setCurrentProject] = useState<ProjectInterface>();
   const [currentTimerTime, setCurrentTimerTime] = useState(0);
   const [modalIsOpen, setIsOpen] = useState(false);
 
   const projectsRepository = new ProjectsRepository();
   const entriesRepository = new EntriesRepository();
-  const clock = new Clock();
 
   function openModal() {
+    console.log(clock.getElapsedTimeInSeconds());
     setIsOpen(true);
+    if (clock.getElapsedTimeInSeconds() != 0) {
+      interval = setInterval(() => {
+        setCurrentTimerTime(clock.getElapsedTimeInSeconds());
+      }, 1000);
+    }
   }
   function closeModal() {
     setIsOpen(false);
+    clearInterval(interval);
   }
 
   function handleStartTimer() {
     clock.startTimer();
-    setInterval(() => {
-      setCurrentTimerTime(clock.getElapsedTimeInSeconds());
-    }, 1000);
+    setCurrentTimerTime(clock.getElapsedTimeInSeconds());
   }
 
   async function handleEndTimer(name: string, projectId: string) {
@@ -47,7 +54,7 @@ export default function Home() {
       projectId
     );
     let parsedData = await rawData.json();
-    setEntries((old: any) => [...old, parsedData]);
+    setEntries((old: EntryInterface[]) => [...old, parsedData]);
     setIsOpen(false);
   }
 
@@ -103,7 +110,7 @@ export default function Home() {
             <header className={styles.header}>
               <span
                 className={styles.title}
-                onClick={() => setCurrentProject(null)}
+                onClick={() => setCurrentProject(undefined)}
               >
                 DRCKR
               </span>

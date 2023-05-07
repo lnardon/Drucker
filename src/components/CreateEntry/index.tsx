@@ -2,13 +2,14 @@ import { useState } from "react";
 
 import styles from "./styles.module.css";
 import { convertSecondsToFullTime } from "@/utils/convertSecondsToFullTime";
+import { ProjectInterface } from "@/interfaces/ProjectInterface";
 
-const CreateEntry: React.FC<any> = ({
-  handleStartTimer,
-  handleEndTimer,
-  timer,
-  projects,
-}) => {
+const CreateEntry: React.FC<{
+  handleStartTimer: () => void;
+  handleEndTimer: (entryName: string, selectedProject: string) => void;
+  timer: number;
+  projects: ProjectInterface[];
+}> = ({ handleStartTimer, handleEndTimer, timer, projects }) => {
   const [entryName, setEntryName] = useState("");
   const [selectedProject, setSelectedProject] = useState("");
 
@@ -29,7 +30,7 @@ const CreateEntry: React.FC<any> = ({
         onChange={(e) => setSelectedProject(e.target.value)}
         value={selectedProject}
       >
-        {projects.map((entry: any, index: number) => {
+        {projects.map((entry: ProjectInterface, index: number) => {
           return (
             <option key={index} value={entry.id}>
               {entry.name}
