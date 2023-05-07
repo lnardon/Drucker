@@ -11,7 +11,7 @@ const EntriesTable: React.FC<any> = ({ entries }) => {
         <h1>Date</h1>
         <h1>Time</h1>
       </div>
-      {entries[0]?.entries?.map((entry: any) => {
+      {entries?.map((entry: any) => {
         return (
           <EntryCard
             name={entry.name}

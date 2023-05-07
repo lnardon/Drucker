@@ -44,20 +44,24 @@ export default function Home() {
       currentTimerTime,
       projectId
     );
+    let parsedData = await rawData.json();
+    setEntries((old: any) => [entries, parsedData]);
     setIsOpen(false);
   }
 
   async function handleProjectOpen(project: ProjectInterface) {
     let rawData = await projectsRepository.getProjectEntries(project.id);
     let parsedData = await rawData.json();
-    setEntries(parsedData);
+    setEntries(parsedData[0].entries);
     setCurrentProject(project);
   }
 
   async function handleProjectCreation() {
     const name = prompt("Type an unique name for your new project.");
     if (name) {
-      projectsRepository.createProject(name);
+      let rawData = await projectsRepository.createProject(name);
+      let parsedData = await rawData.json();
+      setProjects((old) => [...old, parsedData]);
     }
   }
 
