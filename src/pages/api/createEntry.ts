@@ -6,11 +6,12 @@ export default async function createEntry(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    console.log(req.body);
-    const { name, time, projectId } = JSON.parse(req.body);
+    const { name, time, projectId, tags } = JSON.parse(req.body);
 
-    if (!name) {
-      return res.status(400).json({ error: "Entry Name is required" });
+    if (!name && !time) {
+      return res
+        .status(400)
+        .json({ error: "Entry Name and Time are required!" });
     }
 
     try {
@@ -23,12 +24,19 @@ export default async function createEntry(
               id: projectId,
             },
           },
+          tags: {
+            create: tags,
+          },
+        },
+        include: {
+          tags: true,
         },
       });
 
       await prisma.$disconnect();
       res.status(200).json(newEntry);
     } catch (error) {
+      console.log(error, tags);
       res.status(500).json({ error: "Error creating the entry" });
     }
   } else {

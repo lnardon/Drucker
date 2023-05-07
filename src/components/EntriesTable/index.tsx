@@ -1,5 +1,6 @@
 import EntryCard from "../EntryCard";
 import { convertSecondsToFullTime } from "@/utils/convertSecondsToFullTime";
+import { convert8601 } from "@/utils/converters";
 import styles from "./styles.module.css";
 
 const EntriesTable: React.FC<any> = ({ entries }) => {
@@ -17,7 +18,8 @@ const EntriesTable: React.FC<any> = ({ entries }) => {
             name={entry.name}
             key={entry.name}
             time={convertSecondsToFullTime(entry.time)}
-            createdAt={entry.createdAt}
+            createdAt={convert8601(entry.createdAt)}
+            tags={entry.tags}
           />
         );
       })}

@@ -1,0 +1,29 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #fafafa8a;
+  border-radius: 1rem;
+  background-color: transparent;
+  padding: 0.25rem 0.5rem;
+  margin: 0rem 0.25rem;
+  max-width: 125px;
+}
+
+.color {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  display: flex;
+}
+
+.name {
+  flex: 1;
+  font-size: 0.75rem;
+  font-weight: 300;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 50px;
+}
