@@ -34,15 +34,20 @@
 }
 
 .createBtn {
-  padding: 0.85rem 1.25rem;
+  padding: 0.75rem 1.5rem;
   cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 700;
   color: #fafafa;
   background-color: rgb(105, 11, 255);
   border: none;
   border-radius: 0.25rem;
   outline: none;
+  transition: all 0.4s ease-in-out;
+}
+
+.createBtn:hover {
+  transform: scale(1.07);
 }
 
 .main {
@@ -72,11 +77,11 @@
 }
 
 .createFolderBtn {
-  border: 1px solid rgb(31, 199, 59);
+  border: 2px solid rgb(31, 199, 59);
   border-radius: 0.25rem;
   padding: 0.5rem 0.75rem;
   font-size: 0.85rem;
-  font-weight: 500;
+  font-weight: 700;
   color: white;
   background-color: transparent;
   cursor: pointer;
@@ -87,4 +92,17 @@
   background-color: rgb(31, 199, 59);
   color: #131313;
   transform: scale(1.05);
+}
+
+.closeBtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  border: none;
+  background: none;
+  outline: none;
+  cursor: pointer;
+  color: #fafafa;
+  font-size: 0.9rem;
+  font-size: 700;
 }

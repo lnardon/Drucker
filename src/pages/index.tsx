@@ -12,6 +12,7 @@ import ProjectsTable from "@/components/ProjectsTable";
 import CreateEntry from "@/components/CreateEntry";
 import Login from "@/components/Login";
 import { EntryInterface } from "@/interfaces/EntryInterface";
+import { convertSecondsToFullTime } from "@/utils/convertSecondsToFullTime";
 
 Modal.setAppElement("#__next");
 
@@ -29,9 +30,8 @@ export default function Home() {
   const entriesRepository = new EntriesRepository();
 
   function openModal() {
-    console.log(clock.getElapsedTimeInSeconds());
     setIsOpen(true);
-    if (clock.getElapsedTimeInSeconds() != 0) {
+    if (clock.getElapsedTimeInSeconds() > 0) {
       interval = setInterval(() => {
         setCurrentTimerTime(clock.getElapsedTimeInSeconds());
       }, 1000);
@@ -39,15 +39,19 @@ export default function Home() {
   }
   function closeModal() {
     setIsOpen(false);
-    clearInterval(interval);
   }
 
   function handleStartTimer() {
     clock.startTimer();
     setCurrentTimerTime(clock.getElapsedTimeInSeconds());
+    interval = setInterval(() => {
+      setCurrentTimerTime(clock.getElapsedTimeInSeconds());
+    }, 1000);
   }
 
   async function handleEndTimer(name: string, projectId: string) {
+    clock.endTimer();
+    setCurrentTimerTime(0);
     let rawData = await entriesRepository.createEntry(
       name,
       currentTimerTime,
@@ -115,7 +119,9 @@ export default function Home() {
                 DRCKR
               </span>
               <button className={styles.createBtn} onClick={openModal}>
-                Start Timer
+                {currentTimerTime > 0
+                  ? convertSecondsToFullTime(currentTimerTime)
+                  : "Start Timer"}
               </button>
             </header>
             <main className={styles.main}>
@@ -147,12 +153,24 @@ export default function Home() {
                 onRequestClose={closeModal}
                 contentLabel="Example Modal"
               >
-                <CreateEntry
-                  handleStartTimer={handleStartTimer}
-                  handleEndTimer={handleEndTimer}
-                  timer={currentTimerTime}
-                  projects={projects}
-                />
+                <>
+                  <button
+                    className={styles.closeBtn}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    X
+                  </button>
+                  <CreateEntry
+                    handleStartTimer={handleStartTimer}
+                    handleStopTimer={() => {
+                      clock.stopTimer();
+                      clearInterval(interval);
+                    }}
+                    handleEndTimer={handleEndTimer}
+                    timer={currentTimerTime}
+                    projects={projects}
+                  />
+                </>
               </Modal>
             </main>
           </div>
