@@ -6,7 +6,7 @@ export default async function createEntry(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const { name, time, projectId, tags } = JSON.parse(req.body);
+    const { name, description, time, projectId, tags } = JSON.parse(req.body);
 
     if (!name && !time) {
       return res
@@ -18,6 +18,7 @@ export default async function createEntry(
       const newEntry = await prisma.entry.create({
         data: {
           name: name,
+          description: description,
           time: time,
           project: {
             connect: {

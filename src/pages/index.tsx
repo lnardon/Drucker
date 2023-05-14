@@ -50,11 +50,16 @@ export default function Home() {
     }, 1000);
   }
 
-  async function handleEndTimer(name: string, projectId: string) {
+  async function handleEndTimer(
+    name: string,
+    description: string,
+    projectId: string
+  ) {
     clock.endTimer();
     setCurrentTimerTime(0);
     let rawData = await entriesRepository.createEntry(
       name,
+      description,
       currentTimerTime,
       projectId
     );

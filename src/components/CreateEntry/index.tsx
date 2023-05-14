@@ -7,7 +7,11 @@ import { ProjectInterface } from "@/interfaces/ProjectInterface";
 const CreateEntry: React.FC<{
   handleStartTimer: () => void;
   handleStopTimer: () => void;
-  handleEndTimer: (entryName: string, selectedProject: string) => void;
+  handleEndTimer: (
+    entryName: string,
+    entryDescription: string,
+    selectedProject: string
+  ) => void;
   timer: number;
   projects: ProjectInterface[];
 }> = ({
@@ -19,6 +23,7 @@ const CreateEntry: React.FC<{
 }) => {
   const [step, setStep] = useState(timer > 0 ? 1 : 0);
   const [entryName, setEntryName] = useState("");
+  const [entryDescription, setEntryDescription] = useState("");
   const [selectedProject, setSelectedProject] = useState("");
 
   function createEntrySteps() {
@@ -56,7 +61,7 @@ const CreateEntry: React.FC<{
         handleStopTimer();
         return (
           <>
-            <p className={styles.time}>{convertSecondsToFullTime(timer)}</p>a
+            <p className={styles.time}>{convertSecondsToFullTime(timer)}</p>
             <input
               className={styles.nameInput}
               type="text"
@@ -64,6 +69,15 @@ const CreateEntry: React.FC<{
               id=""
               placeholder="Name"
               onChange={(e) => setEntryName(e.target.value)}
+              value={entryName}
+            />
+            <textarea
+              className={styles.descriptionInput}
+              name="description"
+              id=""
+              placeholder="Description"
+              onChange={(e) => setEntryDescription(e.target.value)}
+              value={entryDescription}
             />
             <select
               name="project"
@@ -82,7 +96,7 @@ const CreateEntry: React.FC<{
             <button
               className={styles.endBtn}
               onClick={() => {
-                handleEndTimer(entryName, selectedProject);
+                handleEndTimer(entryName, entryDescription, selectedProject);
                 setStep(3);
               }}
             >

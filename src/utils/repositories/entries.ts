@@ -1,15 +1,21 @@
 export class EntriesRepository {
   async getAllEntries() {
-    const allEntries = await fetch("/api/projects");
+    const allEntries = await fetch("/api/getAllEntries");
     return allEntries;
   }
 
-  async createEntry(name: string, time: number, projectId: string) {
+  async createEntry(
+    name: string,
+    description: string,
+    time: number,
+    projectId: string
+  ) {
     const createdEntry = await fetch("/api/createEntry", {
       method: "POST",
       body: JSON.stringify({
         projectId,
         name,
+        description,
         time,
       }),
     });
@@ -17,7 +23,7 @@ export class EntriesRepository {
   }
 
   async deleteEntry(entryId: string) {
-    const deletedEntry = await fetch("/api/projects");
+    const deletedEntry = await fetch("/api/deleteEntry");
     return deletedEntry;
   }
 }

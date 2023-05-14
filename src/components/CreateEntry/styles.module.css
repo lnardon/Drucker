@@ -32,8 +32,25 @@
   background-color: rgb(255, 255, 255) !important;
   border: none;
   border-radius: 0.25rem;
-  margin-bottom: 1rem;
   margin-top: 1rem;
+}
+
+.descriptionInput {
+  height: 75px;
+  width: 100%;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  padding: 0.5rem;
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 400;
+  cursor: pointer;
+  background-color: rgb(255, 255, 255) !important;
+  border: none;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+  font-family: "Raleway";
 }
 
 .select {
