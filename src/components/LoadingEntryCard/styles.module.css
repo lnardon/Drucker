@@ -1,0 +1,28 @@
+.container {
+  height: 51px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  margin: 0.5rem;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  transition: all 0.3s ease-out;
+  box-shadow: 0px 0px 11px 3px rgba(0, 0, 0, 0.13);
+  color: #fafafa;
+  animation: loading 1.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-color: rgb(25, 25, 51);
+  }
+
+  50% {
+    background-color: rgba(42, 42, 117, 0.603);
+  }
+
+  100% {
+    background-color: rgb(25, 25, 51);
+  }
+}

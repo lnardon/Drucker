@@ -20,6 +20,7 @@ const clock = new Clock();
 let interval: undefined | NodeJS.Timer = undefined;
 export default function Home() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [projects, setProjects] = useState<ProjectInterface[]>([]);
   const [entries, setEntries] = useState<EntryInterface[]>([]);
   const [currentProject, setCurrentProject] = useState<ProjectInterface>();
@@ -63,10 +64,14 @@ export default function Home() {
   }
 
   async function handleProjectOpen(project: ProjectInterface) {
+    setIsLoading(true);
+    setEntries([]);
+    setCurrentProject(project);
     let rawData = await projectsRepository.getProjectEntries(project.id);
     let parsedData = await rawData.json();
     setEntries(parsedData);
     setCurrentProject(project);
+    setIsLoading(false);
   }
 
   async function handleProjectCreation() {
@@ -140,7 +145,7 @@ export default function Home() {
                 )}
               </div>
               {currentProject ? (
-                <EntriesTable entries={entries} />
+                <EntriesTable entries={entries} isLoading={isLoading} />
               ) : (
                 <ProjectsTable
                   projects={projects}
