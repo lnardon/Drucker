@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
 
@@ -136,9 +137,27 @@ export default function Home() {
             </header>
             <main className={styles.main}>
               <div className={styles.breadcrumbsContainer}>
-                <h2 className={styles.subtitle}>
-                  <span>&#x1f3c6;</span> Projects
-                  <span>{currentProject && ` > ${currentProject.name}`}</span>
+                <h2
+                  className={styles.subtitle}
+                  onClick={() => setCurrentProject(undefined)}
+                >
+                  <Image
+                    src={
+                      currentProject
+                        ? "/assets/open-box.png"
+                        : "/assets/closed-box.png"
+                    }
+                    alt=""
+                    width={3.5 * 16}
+                    height={3.5 * 16}
+                    className={styles.projectsIcon}
+                  />
+                  Projects
+                  {currentProject && (
+                    <span
+                      className={styles.breadcrumbsProjectName}
+                    >{`> ${currentProject.name}`}</span>
+                  )}
                 </h2>
                 {!currentProject && (
                   <button
