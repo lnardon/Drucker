@@ -19,12 +19,12 @@ const CreateEntry: React.FC<{
   handleStopTimer,
   handleEndTimer,
   timer,
-  projects,
+  projects = [],
 }) => {
   const [step, setStep] = useState(timer > 0 ? 1 : 0);
   const [entryName, setEntryName] = useState("");
   const [entryDescription, setEntryDescription] = useState("");
-  const [selectedProject, setSelectedProject] = useState("");
+  const [selectedProject, setSelectedProject] = useState(projects[0].id);
 
   function createEntrySteps() {
     switch (step) {

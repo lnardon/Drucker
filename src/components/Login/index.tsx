@@ -19,6 +19,7 @@ const Login: React.FC<{ onAuthSuccess: () => void }> = ({ onAuthSuccess }) => {
 
   return (
     <div className={styles.container}>
+      <h1 className={styles.title}>DRUCKER</h1>
       <input
         type="password"
         placeholder="Password"

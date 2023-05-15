@@ -3,9 +3,6 @@ import { convertSecondsToFullTime } from "@/utils/convertSecondsToFullTime";
 import { convert8601 } from "@/utils/converters";
 import { EntryInterface } from "@/interfaces/EntryInterface";
 import styles from "./styles.module.css";
-import AnalyticsBox from "../AnalyticsBox";
-import TagBadge from "../TagBadge";
-import HeatMap from "../HeatMap";
 import LoadingEntryCard from "../LoadingEntryCard";
 
 const mostUsedTags = [
@@ -22,30 +19,6 @@ const EntriesTable: React.FC<{
 }> = ({ entries, isLoading }) => {
   return (
     <>
-      <div className={styles.analyticsContainer}>
-        <AnalyticsBox content={() => <h1>SKRT</h1>} />
-        <AnalyticsBox content={() => <HeatMap />} />
-        <AnalyticsBox
-          content={() => {
-            return (
-              <>
-                {mostUsedTags.map((tag, index) => (
-                  <TagBadge key={tag.name + index} name={tag.name} />
-                ))}
-              </>
-            );
-          }}
-        />
-        <AnalyticsBox
-          content={() => (
-            <h1>
-              {convertSecondsToFullTime(
-                entries.reduce((n, { time }) => n + time, 0)
-              )}
-            </h1>
-          )}
-        />
-      </div>
       <div className={styles.container}>
         <div className={styles.tableHeader}>
           <h1>Name</h1>
