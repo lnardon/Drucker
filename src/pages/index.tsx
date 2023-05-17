@@ -188,7 +188,12 @@ export default function Home() {
                     className={styles.closeBtn}
                     onClick={() => setIsOpen(false)}
                   >
-                    X
+                    <Image
+                      src="/assets/delete.png"
+                      alt="close"
+                      width={32}
+                      height={32}
+                    />
                   </button>
                   <CreateEntry
                     handleStartTimer={handleStartTimer}
