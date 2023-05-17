@@ -152,11 +152,12 @@ export default function Home() {
                     height={3.5 * 16}
                     className={styles.projectsIcon}
                   />
-                  Projects
-                  {currentProject && (
+                  {currentProject ? (
                     <span
                       className={styles.breadcrumbsProjectName}
                     >{`> ${currentProject.name}`}</span>
+                  ) : (
+                    <span>Projects</span>
                   )}
                 </h2>
                 {!currentProject && (

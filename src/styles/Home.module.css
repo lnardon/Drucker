@@ -111,6 +111,7 @@
 .breadcrumbsProjectName {
   margin-left: 0.5rem;
   font-weight: 500;
+  animation: slideLeft 0.4s ease-in-out;
 }
 
 .closeBtn {
@@ -133,6 +134,17 @@
   }
   to {
     transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
+    opacity: 0;
+  }
+  to {
+    clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 0%);
     opacity: 1;
   }
 }
