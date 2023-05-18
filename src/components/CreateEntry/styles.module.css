@@ -85,6 +85,18 @@
   margin-bottom: 1rem;
 }
 
+.createTagBtn {
+  display: flex;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: rgb(102, 7, 190);
+  color: #fafafa;
+  border-radius: 0.25rem;
+}
+
 .endBtn {
   width: 100%;
   padding: 1rem;

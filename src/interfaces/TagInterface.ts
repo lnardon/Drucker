@@ -1,8 +1,8 @@
 import { EntryInterface } from "./EntryInterface";
 
 export interface TagInterface {
-  id: string;
+  id?: string;
   name: string;
-  entryId: string;
-  entries: EntryInterface[];
+  entryId?: string;
+  entries?: EntryInterface[];
 }

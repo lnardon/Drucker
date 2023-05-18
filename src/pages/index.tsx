@@ -16,6 +16,7 @@ import CreateEntry from "@/components/CreateEntry";
 import Login from "@/components/Login";
 import { EntryInterface } from "@/interfaces/EntryInterface";
 import { convertSecondsToFullTime } from "@/utils/convertSecondsToFullTime";
+import { TagInterface } from "@/interfaces/TagInterface";
 
 Modal.setAppElement("#__next");
 const clock = new Clock();
@@ -57,7 +58,7 @@ export default function Home() {
     name: string,
     description: string,
     projectId: string,
-    entryTags: string[]
+    entryTags: TagInterface[]
   ) {
     clock.endTimer();
     setCurrentTimerTime(0);

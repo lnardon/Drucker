@@ -1,3 +1,5 @@
+import { TagInterface } from "@/interfaces/TagInterface";
+
 export class EntriesRepository {
   async getAllEntries() {
     const allEntries = await fetch("/api/getAllEntries");
@@ -8,7 +10,8 @@ export class EntriesRepository {
     name: string,
     description: string,
     time: number,
-    projectId: string
+    projectId: string,
+    tags: TagInterface[]
   ) {
     const createdEntry = await fetch("/api/createEntry", {
       method: "POST",
@@ -17,6 +20,7 @@ export class EntriesRepository {
         name,
         description,
         time,
+        tags,
       }),
     });
     return createdEntry;

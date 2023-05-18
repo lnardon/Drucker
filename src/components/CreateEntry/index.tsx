@@ -15,7 +15,7 @@ const CreateEntry: React.FC<{
     entryName: string,
     entryDescription: string,
     selectedProject: string,
-    entryTags: string[]
+    entryTags: TagInterface[]
   ) => void;
   clearTimer: () => void;
   timer: number;
@@ -26,16 +26,17 @@ const CreateEntry: React.FC<{
   handleEndTimer,
   clearTimer,
   timer,
-  projects = [],
+  projects,
 }) => {
-  const tagsRepository = new TagsRepository();
-
   const [allTags, setAllTags] = useState<TagInterface[]>([]);
   const [step, setStep] = useState(timer > 0 ? 1 : 0);
   const [entryName, setEntryName] = useState("");
   const [entryDescription, setEntryDescription] = useState("");
   const [selectedProject, setSelectedProject] = useState(projects[0]);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [searchTagTerm, setSearchTagTerm] = useState("");
+  const [selectedTags, setSelectedTags] = useState<TagInterface[]>([]);
+
+  const tagsRepository = new TagsRepository();
 
   function createEntrySteps() {
     switch (step) {
@@ -102,10 +103,11 @@ const CreateEntry: React.FC<{
               className={styles.dropdown}
             />
             <MultiSelect
-              emptyFilterMessage={(name) => (
+              emptyFilterMessage={() => (
                 <button
-                  onClick={() => handleCreateTag("tets" + Date.now())}
-                >{`Create tag: ${name.value}`}</button>
+                  className={styles.createTagBtn}
+                  onClick={() => handleCreateTag(searchTagTerm)}
+                >{`Create tag: ${searchTagTerm}`}</button>
               )}
               optionLabel="name"
               options={allTags}
@@ -118,6 +120,9 @@ const CreateEntry: React.FC<{
                 setSelectedTags(e.target.value);
               }}
               className={styles.multiselect}
+              onFilter={(e) => {
+                setSearchTagTerm(e.filter);
+              }}
             />
             {/* <textarea
               className={styles.descriptionInput}
@@ -149,10 +154,8 @@ const CreateEntry: React.FC<{
   }
 
   async function handleCreateTag(name: string) {
-    let rawData = await tagsRepository.createTag(name);
-    let parsedData = await rawData.json();
-    setAllTags([...allTags, parsedData]);
-    setSelectedTags([...selectedTags, parsedData]);
+    setAllTags([...allTags, { name }]);
+    setSelectedTags([...selectedTags, { name }]);
   }
 
   useEffect(() => {
