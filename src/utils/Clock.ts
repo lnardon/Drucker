@@ -1,7 +1,7 @@
 export class Clock {
   private timeStarted: number = 0;
   private timeElapsed: number = 0;
-  private currentInterval: any = null;
+  private currentInterval: undefined | NodeJS.Timer = undefined;
 
   startTimer() {
     this.timeStarted = Date.now();
@@ -28,7 +28,7 @@ export class Clock {
       clearInterval(this.currentInterval);
     }
     this.timeStarted = 0;
-    this.currentInterval = null;
+    this.currentInterval = undefined;
     this.timeElapsed = 0;
   }
 

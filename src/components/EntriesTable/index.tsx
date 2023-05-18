@@ -5,14 +5,6 @@ import { EntryInterface } from "@/interfaces/EntryInterface";
 import styles from "./styles.module.css";
 import LoadingEntryCard from "../LoadingEntryCard";
 
-const mostUsedTags = [
-  { name: "DB" },
-  { name: "Backend" },
-  { name: "Frontend" },
-  { name: "UX" },
-  { name: "DevOps (INFRA)" },
-];
-
 const EntriesTable: React.FC<{
   entries: EntryInterface[];
   isLoading: boolean;
@@ -42,7 +34,7 @@ const EntriesTable: React.FC<{
                   key={entry.name}
                   time={convertSecondsToFullTime(entry.time)}
                   createdAt={convert8601(entry.createdAt)}
-                  tags={entry.tags}
+                  tags={entry.tags || []}
                 />
               );
             })}

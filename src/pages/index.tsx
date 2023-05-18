@@ -28,7 +28,7 @@ export default function Home() {
   const [projects, setProjects] = useState<ProjectInterface[]>([]);
   const [entries, setEntries] = useState<EntryInterface[]>([]);
   const [currentProject, setCurrentProject] = useState<ProjectInterface>();
-  const [currentTimerTime, setCurrentTimerTime] = useState(0);
+  const [timerTime, setTimerTime] = useState(0);
   const [modalIsOpen, setIsOpen] = useState(false);
 
   const projectsRepository = new ProjectsRepository();
@@ -38,19 +38,20 @@ export default function Home() {
     setIsOpen(true);
     if (clock.getElapsedTimeInSeconds() > 0) {
       interval = setInterval(() => {
-        setCurrentTimerTime(clock.getElapsedTimeInSeconds());
+        setTimerTime(clock.getElapsedTimeInSeconds());
       }, 1000);
     }
   }
+
   function closeModal() {
     setIsOpen(false);
   }
 
   function handleStartTimer() {
     clock.startTimer();
-    setCurrentTimerTime(clock.getElapsedTimeInSeconds());
+    setTimerTime(clock.getElapsedTimeInSeconds());
     interval = setInterval(() => {
-      setCurrentTimerTime(clock.getElapsedTimeInSeconds());
+      setTimerTime(clock.getElapsedTimeInSeconds());
     }, 1000);
   }
 
@@ -61,16 +62,16 @@ export default function Home() {
     entryTags: TagInterface[]
   ) {
     clock.endTimer();
-    setCurrentTimerTime(0);
+    setTimerTime(0);
     let rawData = await entriesRepository.createEntry(
       name,
       description,
-      currentTimerTime,
+      timerTime,
       projectId,
       entryTags
     );
     let parsedData = await rawData.json();
-    setEntries((old: EntryInterface[]) => [...old, parsedData]);
+    setEntries((oldEntries: EntryInterface[]) => [...oldEntries, parsedData]);
     setIsOpen(false);
   }
 
@@ -90,7 +91,7 @@ export default function Home() {
     if (name) {
       let rawData = await projectsRepository.createProject(name);
       let parsedData = await rawData.json();
-      setProjects((old) => [...old, parsedData]);
+      setProjects((oldProjects) => [...oldProjects, parsedData]);
     }
   }
 
@@ -99,7 +100,7 @@ export default function Home() {
       "To confirm the deletion please type the name of the project and then press the OK button or the Cancel button to close this window."
     );
     if (confirmation) {
-      let rawData = await projectsRepository.deleteProject(id);
+      await projectsRepository.deleteProject(id);
       setProjects((old) => old.filter((project) => project.id !== id));
     }
   }
@@ -140,8 +141,8 @@ export default function Home() {
                 DRCKR
               </span>
               <button className={styles.createBtn} onClick={openModal}>
-                {currentTimerTime > 0
-                  ? convertSecondsToFullTime(currentTimerTime)
+                {timerTime > 0
+                  ? convertSecondsToFullTime(timerTime)
                   : "Start Timer"}
               </button>
             </header>
@@ -213,7 +214,7 @@ export default function Home() {
                     }}
                     handleEndTimer={handleEndTimer}
                     clearTimer={handleClearTimer}
-                    timer={currentTimerTime}
+                    timer={timerTime}
                     projects={projects}
                   />
                 </>

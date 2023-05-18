@@ -43,7 +43,7 @@ const CreateEntry: React.FC<{
       case 0:
         return (
           <>
-            <p className={styles.time}>-- : --</p>
+            <p className={styles.time}> -- : -- </p>
             <button
               className={styles.startBtn}
               onClick={() => {
