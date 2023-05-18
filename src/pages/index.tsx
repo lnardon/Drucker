@@ -3,6 +3,8 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
 
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/primereact.css";
 import styles from "@/styles/Home.module.css";
 import { ProjectsRepository } from "@/utils/repositories/projects";
 import { EntriesRepository } from "@/utils/repositories/entries";
@@ -16,10 +18,10 @@ import { EntryInterface } from "@/interfaces/EntryInterface";
 import { convertSecondsToFullTime } from "@/utils/convertSecondsToFullTime";
 
 Modal.setAppElement("#__next");
-
 const clock = new Clock();
-let interval: undefined | NodeJS.Timer = undefined;
+
 export default function Home() {
+  let interval: undefined | NodeJS.Timer = undefined;
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [projects, setProjects] = useState<ProjectInterface[]>([]);
@@ -54,7 +56,8 @@ export default function Home() {
   async function handleEndTimer(
     name: string,
     description: string,
-    projectId: string
+    projectId: string,
+    entryTags: string[]
   ) {
     clock.endTimer();
     setCurrentTimerTime(0);
@@ -62,7 +65,8 @@ export default function Home() {
       name,
       description,
       currentTimerTime,
-      projectId
+      projectId,
+      entryTags
     );
     let parsedData = await rawData.json();
     setEntries((old: EntryInterface[]) => [...old, parsedData]);
@@ -101,6 +105,11 @@ export default function Home() {
 
   function onAuthSuccess() {
     setIsUserLoggedIn(true);
+  }
+
+  function handleClearTimer() {
+    clearInterval(interval);
+    clock.resetTimer();
   }
 
   useEffect(() => {
@@ -202,6 +211,7 @@ export default function Home() {
                       clearInterval(interval);
                     }}
                     handleEndTimer={handleEndTimer}
+                    clearTimer={handleClearTimer}
                     timer={currentTimerTime}
                     projects={projects}
                   />

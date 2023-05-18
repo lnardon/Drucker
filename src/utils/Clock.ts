@@ -23,6 +23,15 @@ export class Clock {
     };
   }
 
+  resetTimer() {
+    if (this.currentInterval) {
+      clearInterval(this.currentInterval);
+    }
+    this.timeStarted = 0;
+    this.currentInterval = null;
+    this.timeElapsed = 0;
+  }
+
   getElapsedTimeInSeconds() {
     if (this.timeStarted === 0) {
       return 0;
