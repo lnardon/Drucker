@@ -6,7 +6,7 @@ export default async function createTag(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const { name } = JSON.parse(req.body);
+    const name = req.body;
 
     if (!name) {
       return res.status(400).json({ error: "Tag needs an unique name!" });

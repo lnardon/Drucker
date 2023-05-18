@@ -1,53 +1,118 @@
 .container {
+  position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
+  transition: all 0.4s ease-in-out;
 }
 
 .time {
-  font-size: 1.25rem;
+  width: 100%;
+  text-align: center;
+  font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 1rem;
+  background-color: rgb(242, 238, 245);
+  padding: 1rem 0.75rem;
+  border-radius: 0.25rem;
+  margin: 1rem 0rem;
+}
+
+.clearTime {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: rgb(249, 249, 250);
+  cursor: pointer;
 }
 
 .nameInput {
-  width: 50%;
+  width: 100%;
   margin-bottom: 1rem;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   padding: 0.5rem;
+  width: 100%;
+  padding: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: rgb(250, 250, 250) !important;
+  border: none;
+  border-radius: 0.25rem;
+  margin-top: 1rem;
+}
+
+.descriptionInput {
+  height: 75px;
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: rgb(255, 255, 255) !important;
+  border: none;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+  font-family: "Raleway";
+}
+
+.dropdown {
+  width: 100% !important;
+  margin-bottom: 1rem;
+}
+
+.multiselect {
+  width: 100% !important;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 2rem;
 }
 
 .startBtn {
-  width: 50%;
-  padding: 0.5rem 1rem;
+  width: 100%;
+  padding: 1rem;
   cursor: pointer;
   outline: none;
   border: none;
   background-color: rgb(102, 7, 190);
   border-radius: 0.25rem;
-  font-weight: 500;
-  font-size: 0.9rem;
+  font-weight: 700;
+  font-size: 1rem;
   color: #fafafa;
   margin-bottom: 1rem;
 }
 
-.endBtn {
-  width: 50%;
+.createTagBtn {
+  display: flex;
+  border: none;
   padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: rgb(102, 7, 190);
+  color: #fafafa;
+  border-radius: 0.25rem;
+}
+
+.endBtn {
+  width: 100%;
+  padding: 1rem;
   cursor: pointer;
   outline: none;
-  border: 2px solid rgb(102, 7, 190);
+  background-color: rgb(102, 7, 190);
   border-radius: 0.25rem;
-  font-weight: 500;
-  font-size: 0.9rem;
-  color: rgb(102, 7, 190);
+  border: none;
+  font-weight: 700;
+  font-size: 1rem;
+  color: rgb(250, 250, 250);
   margin-bottom: 1rem;
+}
+
+.savingLabel {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fafafa;
 }

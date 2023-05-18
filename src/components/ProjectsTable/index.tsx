@@ -1,14 +1,15 @@
+import { ProjectInterface } from "@/interfaces/ProjectInterface";
 import ProjectCard from "../ProjectCard";
 import styles from "./styles.module.css";
 
-const ProjectsTable: React.FC<any> = ({
-  projects,
-  handleProjectOpen,
-  handleProjectDeletion,
-}) => {
+const ProjectsTable: React.FC<{
+  projects: ProjectInterface[];
+  handleProjectOpen: (project: ProjectInterface) => void;
+  handleProjectDeletion: (id: string) => void;
+}> = ({ projects, handleProjectOpen, handleProjectDeletion }) => {
   return (
     <div className={styles.container}>
-      {projects.map((project: any) => {
+      {projects.map((project: ProjectInterface) => {
         return (
           <ProjectCard
             name={project.name}

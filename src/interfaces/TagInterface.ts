@@ -1,8 +1,8 @@
 import { EntryInterface } from "./EntryInterface";
 
-export interface ProjectInterface {
-  id: string;
+export interface TagInterface {
+  id?: string;
   name: string;
-  description?: string;
+  entryId?: string;
   entries?: EntryInterface[];
 }

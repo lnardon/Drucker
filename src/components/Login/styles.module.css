@@ -6,6 +6,12 @@
   gap: 2rem;
 }
 
+.title {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #fafafa;
+}
+
 .input {
   width: 250px;
   border: none;

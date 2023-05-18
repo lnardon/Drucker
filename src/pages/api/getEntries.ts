@@ -20,6 +20,9 @@ export default async function getEntries(
         include: {
           tags: true,
         },
+        orderBy: {
+          createdAt: "desc",
+        },
       });
 
       await prisma.$disconnect();
