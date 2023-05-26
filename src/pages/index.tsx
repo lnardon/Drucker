@@ -71,7 +71,7 @@ export default function Home() {
       entryTags
     );
     let parsedData = await rawData.json();
-    setEntries((oldEntries: EntryInterface[]) => [...oldEntries, parsedData]);
+    setEntries((oldEntries: EntryInterface[]) => [parsedData,...oldEntries]);
     setIsOpen(false);
   }
 
