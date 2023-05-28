@@ -26,7 +26,7 @@ export default async function createEntry(
             },
           },
           tags: {
-            create: tags,
+            connect: tags,
           },
         },
         include: {

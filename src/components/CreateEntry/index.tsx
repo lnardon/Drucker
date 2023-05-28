@@ -38,6 +38,13 @@ const CreateEntry: React.FC<{
 
   const tagsRepository = new TagsRepository();
 
+  function filterTagsId(array: TagInterface[]): { id: string | undefined }[] {
+    return array.map((obj) => {
+      const { id } = obj;
+      return { id };
+    });
+  }
+
   function createEntrySteps() {
     switch (step) {
       case 0:
@@ -139,7 +146,7 @@ const CreateEntry: React.FC<{
                   entryName,
                   entryDescription,
                   selectedProject.id,
-                  selectedTags
+                  filterTagsId(selectedTags)
                 );
                 setStep(3);
               }}
