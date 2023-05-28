@@ -38,11 +38,13 @@ const CreateEntry: React.FC<{
 
   const tagsRepository = new TagsRepository();
 
-  function filterTagsId(array: TagInterface[]): { id: string | undefined }[] {
-    return array.map((obj) => {
+  function filterTagsIds(array: TagInterface[]) {
+    let newArray: any = [];
+    array.forEach((obj) => {
       const { id } = obj;
-      return { id };
+      newArray.push({ id });
     });
+    return newArray;
   }
 
   function createEntrySteps() {
@@ -146,7 +148,7 @@ const CreateEntry: React.FC<{
                   entryName,
                   entryDescription,
                   selectedProject.id,
-                  filterTagsId(selectedTags)
+                  filterTagsIds(selectedTags)
                 );
                 setStep(3);
               }}
@@ -161,8 +163,8 @@ const CreateEntry: React.FC<{
   }
 
   async function handleCreateTag(name: string) {
-    setAllTags([...allTags, { name }]);
-    setSelectedTags([...selectedTags, { name }]);
+    setAllTags([...allTags, { id: Date.now().toString(), name }]);
+    setSelectedTags([...selectedTags, { id: Date.now().toString(), name }]);
   }
 
   useEffect(() => {
