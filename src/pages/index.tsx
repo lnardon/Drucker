@@ -20,9 +20,9 @@ import { TagInterface } from "@/interfaces/TagInterface";
 
 Modal.setAppElement("#__next");
 const clock = new Clock();
+let interval: undefined | NodeJS.Timer = undefined;
 
 export default function Home() {
-  let interval: undefined | NodeJS.Timer = undefined;
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [projects, setProjects] = useState<ProjectInterface[]>([]);
@@ -36,11 +36,6 @@ export default function Home() {
 
   function openModal() {
     setIsOpen(true);
-    if (clock.getElapsedTimeInSeconds() > 0) {
-      interval = setInterval(() => {
-        setTimerTime(clock.getElapsedTimeInSeconds());
-      }, 1000);
-    }
   }
 
   function closeModal() {
@@ -71,7 +66,7 @@ export default function Home() {
       entryTags
     );
     let parsedData = await rawData.json();
-    setEntries((oldEntries: EntryInterface[]) => [parsedData,...oldEntries]);
+    setEntries((oldEntries: EntryInterface[]) => [parsedData, ...oldEntries]);
     setIsOpen(false);
   }
 
@@ -115,11 +110,14 @@ export default function Home() {
   }
 
   useEffect(() => {
-    (async () => {
-      let rawData = await projectsRepository.getAllProjects();
-      let parsedData = await rawData.json();
-      setProjects(parsedData);
-    })();
+    projectsRepository
+      .getAllProjects()
+      .then((data) => data.json())
+      .then((parsedData) => setProjects(parsedData));
+
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   return (
@@ -209,8 +207,8 @@ export default function Home() {
                   <CreateEntry
                     handleStartTimer={handleStartTimer}
                     handleStopTimer={() => {
-                      clock.stopTimer();
                       clearInterval(interval);
+                      clock.stopTimer();
                     }}
                     handleEndTimer={handleEndTimer}
                     clearTimer={handleClearTimer}

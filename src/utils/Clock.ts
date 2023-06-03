@@ -1,42 +1,42 @@
 export class Clock {
-  private timeStarted: number = 0;
-  private timeElapsed: number = 0;
-  private currentInterval: undefined | NodeJS.Timer = undefined;
+  private startedDate: Date | null = null;
+  private endDate: Date | null = null;
 
   startTimer() {
-    this.timeStarted = Date.now();
-    this.currentInterval = setInterval(() => {
-      this.timeElapsed += 1000;
-    }, 1000);
+    this.startedDate = new Date();
   }
 
   stopTimer() {
-    clearInterval(this.currentInterval);
+    this.endDate = new Date();
   }
 
   endTimer() {
-    this.timeStarted = 0;
-    this.timeElapsed = 0;
+    this.endDate = new Date();
     return {
-      started: this.timeStarted,
-      totalTimeElapsedInSeconds: this.timeElapsed / 1000,
+      started: this.startedDate,
+      totalTimeElapsedInSeconds: Math.floor(
+        (this.endDate.getTime() - this.startedDate.getTime()) / 1000
+      ),
     };
   }
 
   resetTimer() {
-    if (this.currentInterval) {
-      clearInterval(this.currentInterval);
-    }
-    this.timeStarted = 0;
-    this.currentInterval = undefined;
-    this.timeElapsed = 0;
+    this.startedDate = null;
+    this.endDate = null;
   }
 
   getElapsedTimeInSeconds() {
-    if (this.timeStarted === 0) {
-      return 0;
+    if (this.endDate) {
+      return Math.floor(
+        (this.endDate.getTime() - this.startedDate.getTime()) / 1000
+      );
+    }
+    if (this.startedDate) {
+      return Math.floor(
+        (new Date().getTime() - this.startedDate.getTime()) / 1000
+      );
     } else {
-      return this.timeElapsed / 1000;
+      return 0;
     }
   }
 }

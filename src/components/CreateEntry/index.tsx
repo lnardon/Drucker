@@ -133,14 +133,6 @@ const CreateEntry: React.FC<{
                 setSearchTagTerm(e.filter);
               }}
             />
-            {/* <textarea
-              className={styles.descriptionInput}
-              name="description"
-              id=""
-              placeholder="Description"
-              onChange={(e) => setEntryDescription(e.target.value)}
-              value={entryDescription}
-            /> */}
             <button
               className={styles.endBtn}
               onClick={() => {
@@ -168,11 +160,10 @@ const CreateEntry: React.FC<{
   }
 
   useEffect(() => {
-    (async () => {
-      let rawData = await tagsRepository.getAllTags();
-      let parsedData = await rawData.json();
-      setAllTags(parsedData);
-    })();
+    tagsRepository
+      .getAllTags()
+      .then((raw) => raw.json())
+      .then((parsedData) => setAllTags(parsedData));
   }, []);
 
   return <div className={styles.container}>{createEntrySteps()}</div>;
