@@ -4,7 +4,13 @@ export function convertSecondsToFullTime(seconds: number) {
   const mnts = Math.floor(seconds / 60);
   seconds -= mnts * 60;
   if (hrs > 0) {
-    return String(hrs).padStart(2, "0") + ":" + mnts + ":" + seconds;
+    return (
+      String(hrs).padStart(2, "0") +
+      ":" +
+      String(mnts).padStart(2, "0") +
+      ":" +
+      String(seconds).padStart(2, "0")
+    );
   } else {
     return (
       String(mnts).padStart(2, "0") + ":" + String(seconds).padStart(2, "0")

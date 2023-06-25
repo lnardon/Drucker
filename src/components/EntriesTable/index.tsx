@@ -19,7 +19,7 @@ const EntriesTable: React.FC<{
           <h1>Time</h1>
         </div>
         {isLoading
-          ? [0, 0, 0, 0, 0, 0, 0, 0].map((on, index) => {
+          ? [0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((on, index) => {
               return (
                 <LoadingEntryCard
                   key={Date.now() * Math.random()}
