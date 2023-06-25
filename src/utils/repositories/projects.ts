@@ -39,4 +39,12 @@ export class ProjectsRepository {
     });
     return projectEntries;
   }
+
+  async getProjectStats(projectId: string) {
+    const totalTime = await fetch("/api/getProjectStats", {
+      method: "POST",
+      body: projectId,
+    });
+    return totalTime;
+  }
 }
