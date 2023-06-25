@@ -30,6 +30,11 @@ export default function Home() {
   const [currentProject, setCurrentProject] = useState<ProjectInterface>();
   const [timerTime, setTimerTime] = useState(0);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [projectStats, setProjectStas] = useState({
+    total_time: null,
+    last_7_days: null,
+    last_30_days: null,
+  });
 
   const projectsRepository = new ProjectsRepository();
   const entriesRepository = new EntriesRepository();
@@ -76,6 +81,11 @@ export default function Home() {
     setCurrentProject(project);
     let rawData = await projectsRepository.getProjectEntries(project.id);
     let parsedData = await rawData.json();
+
+    let rawStats = await projectsRepository.getProjectStats(project.id);
+    let parsedStats = await rawStats.json();
+
+    setProjectStas(parsedStats);
     setEntries(parsedData);
     setCurrentProject(project);
     setIsLoading(false);
@@ -109,6 +119,15 @@ export default function Home() {
     clock.resetTimer();
   }
 
+  function handleProjectClose() {
+    setCurrentProject(undefined);
+    setProjectStas({
+      total_time: null,
+      last_7_days: null,
+      last_30_days: null,
+    });
+  }
+
   useEffect(() => {
     projectsRepository
       .getAllProjects()
@@ -132,10 +151,7 @@ export default function Home() {
         {isUserLoggedIn ? (
           <div className={styles.content}>
             <header className={styles.header}>
-              <span
-                className={styles.title}
-                onClick={() => setCurrentProject(undefined)}
-              >
+              <span className={styles.title} onClick={handleProjectClose}>
                 DRCKR
               </span>
               <button className={styles.createBtn} onClick={openModal}>
@@ -146,10 +162,7 @@ export default function Home() {
             </header>
             <main className={styles.main}>
               <div className={styles.breadcrumbsContainer}>
-                <h2
-                  className={styles.subtitle}
-                  onClick={() => setCurrentProject(undefined)}
-                >
+                <h2 className={styles.subtitle} onClick={handleProjectClose}>
                   <Image
                     src={
                       currentProject
@@ -179,7 +192,41 @@ export default function Home() {
                 )}
               </div>
               {currentProject ? (
-                <EntriesTable entries={entries} isLoading={isLoading} />
+                <>
+                  <div className={styles.stats}>
+                    <div className={styles.statContainer}>
+                      <span className={styles.statTitle}>Last 7 days:</span>
+                      <span className={styles.statValue}>
+                        <strong>
+                          {convertSecondsToFullTime(
+                            projectStats.last_7_days || 0
+                          )}
+                        </strong>
+                      </span>
+                    </div>
+                    <div className={styles.statContainer}>
+                      <span className={styles.statTitle}>Last 30 days:</span>
+                      <span className={styles.statValue}>
+                        <strong>
+                          {convertSecondsToFullTime(
+                            projectStats.last_30_days || 0
+                          )}
+                        </strong>
+                      </span>
+                    </div>
+                    <div className={styles.statContainer}>
+                      <span className={styles.statTitle}>Total Time:</span>
+                      <span className={styles.statValue}>
+                        <strong>
+                          {convertSecondsToFullTime(
+                            projectStats.total_time || 0
+                          )}
+                        </strong>
+                      </span>
+                    </div>
+                  </div>
+                  <EntriesTable entries={entries} isLoading={isLoading} />
+                </>
               ) : (
                 <ProjectsTable
                   projects={projects}
