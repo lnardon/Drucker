@@ -11,6 +11,7 @@ const Login: React.FC<{ onAuthSuccess: () => void }> = ({ onAuthSuccess }) => {
     });
     let isAuthenticated = await raw.json();
     if (isAuthenticated) {
+      localStorage.setItem("isAuth", "true");
       onAuthSuccess();
     } else {
       alert("Login failed");

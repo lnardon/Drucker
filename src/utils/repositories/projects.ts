@@ -32,10 +32,21 @@ export class ProjectsRepository {
     return createdEntry;
   }
 
-  async getProjectEntries(projectId: string) {
+  async getProjectEntries(
+    projectId: string,
+    entriesPerPage: number,
+    page: number
+  ) {
     const projectEntries = await fetch("/api/getEntries", {
       method: "POST",
-      body: projectId,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        projectId,
+        entriesPerPage,
+        page,
+      }),
     });
     return projectEntries;
   }

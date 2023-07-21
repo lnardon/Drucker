@@ -1,14 +1,37 @@
+import { useState, useEffect } from "react";
+
+import styles from "./styles.module.css";
 import EntryCard from "../EntryCard";
 import { convertSecondsToFullTime } from "@/utils/convertSecondsToFullTime";
 import { convert8601 } from "@/utils/converters";
 import { EntryInterface } from "@/interfaces/EntryInterface";
-import styles from "./styles.module.css";
 import LoadingEntryCard from "../LoadingEntryCard";
+import { ProjectsRepository } from "@/utils/repositories/projects";
 
 const EntriesTable: React.FC<{
-  entries: EntryInterface[];
-  isLoading: boolean;
-}> = ({ entries, isLoading }) => {
+  projectsRepository: ProjectsRepository;
+  projectID: string;
+}> = ({ projectsRepository, projectID }) => {
+  const [page, setPage] = useState(1);
+  const [entriesPerPage, setEntriesPerPage] = useState(10);
+  const [entries, setEntries] = useState<EntryInterface[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function getEntries() {
+      setIsLoading(true);
+      let rawData = await projectsRepository.getProjectEntries(
+        projectID,
+        entriesPerPage,
+        page
+      );
+      let parsedData = await rawData.json();
+      setEntries(parsedData);
+      setIsLoading(false);
+    }
+    getEntries();
+  }, [entriesPerPage, page, projectID, projectsRepository]);
+
   return (
     <>
       <div className={styles.container}>
@@ -38,6 +61,32 @@ const EntriesTable: React.FC<{
                 />
               );
             })}
+      </div>
+      <div className={styles.pagination}>
+        {/* <select onChange={(e) => setEntriesPerPage(Number(e.target.value))}>
+          <option value="10">10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+        </select> */}
+        <div className={styles.controls}>
+          <button
+            className={styles.pageBtn}
+            onClick={() => setPage(page - 1)}
+            disabled={page === 1 || isLoading}
+          >
+            Previous
+          </button>
+          <span className={styles.pageNumber}>{page}</span>
+          <button
+            className={styles.pageBtn}
+            onClick={() => {
+              setPage(page + 1);
+            }}
+            disabled={isLoading}
+          >
+            Next
+          </button>
+        </div>
       </div>
     </>
   );
