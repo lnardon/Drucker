@@ -17,6 +17,7 @@ import Login from "@/components/Login";
 import { EntryInterface } from "@/interfaces/EntryInterface";
 import { convertSecondsToFullTime } from "@/utils/convertSecondsToFullTime";
 import { TagInterface } from "@/interfaces/TagInterface";
+import TagBadge from "@/components/TagBadge";
 
 Modal.setAppElement("#__next");
 const clock = new Clock();
@@ -26,7 +27,6 @@ export default function Home() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [projects, setProjects] = useState<ProjectInterface[]>([]);
-  const [entries, setEntries] = useState<EntryInterface[]>([]);
   const [currentProject, setCurrentProject] = useState<ProjectInterface>();
   const [timerTime, setTimerTime] = useState(0);
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -34,6 +34,7 @@ export default function Home() {
     total_time: null,
     last_7_days: null,
     last_30_days: null,
+    most_used_tag: null,
   });
 
   const projectsRepository = new ProjectsRepository();
@@ -71,22 +72,15 @@ export default function Home() {
       entryTags
     );
     let parsedData = await rawData.json();
-    setEntries((oldEntries: EntryInterface[]) => [parsedData, ...oldEntries]);
     setIsOpen(false);
   }
 
   async function handleProjectOpen(project: ProjectInterface) {
     setIsLoading(true);
-    setEntries([]);
     setCurrentProject(project);
-    let rawData = await projectsRepository.getProjectEntries(project.id);
-    let parsedData = await rawData.json();
-
     let rawStats = await projectsRepository.getProjectStats(project.id);
     let parsedStats = await rawStats.json();
-
     setProjectStas(parsedStats);
-    setEntries(parsedData);
     setCurrentProject(project);
     setIsLoading(false);
   }
@@ -125,10 +119,12 @@ export default function Home() {
       total_time: null,
       last_7_days: null,
       last_30_days: null,
+      most_used_tag: null,
     });
   }
 
   useEffect(() => {
+    setIsUserLoggedIn(localStorage.getItem("isAuth") === "true");
     projectsRepository
       .getAllProjects()
       .then((data) => data.json())
@@ -224,8 +220,19 @@ export default function Home() {
                         </strong>
                       </span>
                     </div>
+                    <div className={styles.statContainer}>
+                      <span className={styles.statTitle}>Most Used Tag:</span>
+                      {projectStats.most_used_tag ? (
+                        <TagBadge name={projectStats.most_used_tag} />
+                      ) : (
+                        "-"
+                      )}
+                    </div>
                   </div>
-                  <EntriesTable entries={entries} isLoading={isLoading} />
+                  <EntriesTable
+                    projectsRepository={projectsRepository}
+                    projectID={currentProject.id}
+                  />
                 </>
               ) : (
                 <ProjectsTable

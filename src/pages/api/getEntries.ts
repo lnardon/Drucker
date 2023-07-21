@@ -6,13 +6,21 @@ export default async function getEntries(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const projectId = req.body;
+    const { projectId, entriesPerPage, page } = req.body;
 
     if (!projectId) {
       return res.status(400).json({ error: "Project ID is required" });
     }
 
     try {
+      const totalEntries = await prisma.entry.count({
+        where: {
+          projectId: projectId,
+        },
+      });
+
+      const skipEntries = Math.max(0, totalEntries - entriesPerPage * page);
+
       const projectEntries = await prisma.entry.findMany({
         where: {
           projectId: projectId,
@@ -23,6 +31,8 @@ export default async function getEntries(
         orderBy: {
           createdAt: "desc",
         },
+        take: entriesPerPage,
+        skip: skipEntries,
       });
 
       await prisma.$disconnect();
