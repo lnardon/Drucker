@@ -26,11 +26,17 @@ const EntriesTable: React.FC<{
         page
       );
       let parsedData = await rawData.json();
+
+      while (parsedData.length < 10) {
+        parsedData.push({ name: "-", createdAt: null, time: null, tags: [] });
+      }
+
       setEntries(parsedData);
       setIsLoading(false);
     }
     getEntries();
-  }, [entriesPerPage, page, projectID, projectsRepository]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entriesPerPage, page]);
 
   return (
     <>
@@ -55,8 +61,16 @@ const EntriesTable: React.FC<{
                 <EntryCard
                   name={entry.name}
                   key={entry.name}
-                  time={convertSecondsToFullTime(entry.time)}
-                  createdAt={convert8601(entry.createdAt)}
+                  time={
+                    typeof entry.time === "number"
+                      ? convertSecondsToFullTime(entry.time)
+                      : "-"
+                  }
+                  createdAt={
+                    typeof entry.createdAt === "string"
+                      ? convert8601(entry.createdAt)
+                      : "-"
+                  }
                   tags={entry.tags || []}
                 />
               );

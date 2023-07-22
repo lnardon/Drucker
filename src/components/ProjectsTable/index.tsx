@@ -9,11 +9,12 @@ const ProjectsTable: React.FC<{
 }> = ({ projects, handleProjectOpen, handleProjectDeletion }) => {
   return (
     <div className={styles.container}>
-      {projects.map((project: ProjectInterface) => {
+      {projects.map((project: ProjectInterface, index: number) => {
         return (
           <ProjectCard
             name={project.name}
             key={project.name}
+            index={index}
             handleClick={() => handleProjectOpen(project)}
             handleDelete={() => handleProjectDeletion(project.id)}
           />

@@ -2,17 +2,23 @@ import styles from "./styles.module.css";
 
 interface IProjectCard {
   name: string;
+  index: number;
   handleClick: () => void;
   handleDelete: () => void;
 }
 
 const ProjectCard: React.FC<IProjectCard> = ({
   name,
+  index,
   handleClick,
   handleDelete,
 }) => {
   return (
-    <div className={styles.container} onClick={handleClick}>
+    <div
+      className={styles.container}
+      onClick={handleClick}
+      style={{ animationDelay: `${index * 50}ms` }}
+    >
       <p className={styles.name}>{name}</p>
       <button
         className={styles.deleteBtn}
