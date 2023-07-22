@@ -1,19 +1,12 @@
 export function convertSecondsToFullTime(seconds: number) {
   const hrs = Math.floor(seconds / 3600);
   seconds -= hrs * 3600;
-  const mnts = Math.floor(seconds / 60);
-  seconds -= mnts * 60;
-  if (hrs > 0) {
-    return (
-      String(hrs).padStart(2, "0") +
-      ":" +
-      String(mnts).padStart(2, "0") +
-      ":" +
-      String(seconds).padStart(2, "0")
-    );
-  } else {
-    return (
-      String(mnts).padStart(2, "0") + ":" + String(seconds).padStart(2, "0")
-    );
+  let mnts = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+
+  if (remainingSeconds >= 30) {
+    mnts += 1;
   }
+
+  return String(hrs).padStart(2, "0") + ":" + String(mnts).padStart(2, "0");
 }

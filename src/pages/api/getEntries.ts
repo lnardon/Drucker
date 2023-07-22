@@ -19,7 +19,9 @@ export default async function getEntries(
         },
       });
 
-      const skipEntries = Math.max(0, totalEntries - entriesPerPage * page);
+      const startEntry = (page - 1) * entriesPerPage;
+      const skipEntries =
+        startEntry > totalEntries ? totalEntries - entriesPerPage : startEntry;
 
       const projectEntries = await prisma.entry.findMany({
         where: {
