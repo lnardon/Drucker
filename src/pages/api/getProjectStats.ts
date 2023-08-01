@@ -40,7 +40,7 @@ export default async function getProjectStats(
       });
 
       let thirtyDaysAgo = new Date();
-      thirtyDaysAgo.setDate(sevenDaysAgo.getDate() - 30);
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
       const last_30_days = await prisma.entry.aggregate({
         _sum: {
           time: true,
